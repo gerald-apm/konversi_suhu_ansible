@@ -1,0 +1,43 @@
+- name: Konversi suhu celcius ke fahrenheit, reamur, dan kelvin
+  set_fact:
+    hasil_konversi:
+      celcius: "{{ nilai_suhu | float }}"
+      fahrenheit: "{{ (9 / 5) * nilai_suhu | float  + 32}}"
+      reamur: "{{ (4 / 5) * nilai_suhu | float }}"
+      kelvin: "{{ nilai_suhu | float + 273.15 }}"
+  when: satuan_suhu | lower() == "celcius"
+
+- name: Konversi suhu fahrenheit ke celcius, reamur, dan kelvin
+  set_fact:
+    hasil_konversi:
+      celcius: "{{ (nilai_suhu | float -32)*(5/9) }}"
+      fahrenheit: "{{ nilai_suhu | float }}"
+      reamur: "{{ ( 4/9 )*(nilai_suhu | float -32) }}"
+      kelvin: "{{ (nilai_suhu | float  + 273.15 )* 5/9 }}"
+  when: satuan_suhu | lower() == "fahrenheit"
+
+- name: Konversi suhu reamur ke celcius, fahrenheit, dan kelvin
+  set_fact:
+    hasil_konversi:
+      celcius: "{{ nilai_suhu | float /0.8 }}"
+      fahrenheit: "{{ nilai_suhu | float * 2.25) + 32 }}"
+      reamur: "{{ nilai_suhu | float }}"
+      kelvin: "{{ (nilai_suhu | float / 0.8) + 273.15 }}"
+  when: satuan_suhu | lower() == "reamur"
+
+- name: Konversi suhu kelvin ke celcius, reamur, dan fahrenheit
+  set_fact:
+    hasil_konversi:
+      celcius: "{{ nilai_suhu | float - 273.15 }}"
+      fahrenheit: "{{ nilai_suhu | float * ( 9/5) - 459.67 }}"
+      reamur: "{{ (4/5) * nilai_suhu | float - 273) }}"
+      kelvin: "{{ nilai_suhu | float }}"
+  when: satuan_suhu | lower() == "kelvin"
+
+- name: Formatting hasil konversi °
+  set_fact:
+    hasil_konversi:
+      celcius: "{{ ('%0.2f' % hasil_konversi.celcius | default(nilai_suhu) |float) }}°C"
+      fahrenheit: "{{ ('%0.2f' % hasil_konversi.fahrenheit | default(nilai_suhu) |float) }}°F"
+      reamur: "{{ ('%0.2f' % hasil_konversi.reamur | default(nilai_suhu) |float) }}°R"
+      kelvin: "{{ ('%0.2f' % hasil_konversi.kelvin | default(nilai_suhu) |float) }}°K"

@@ -1,0 +1,16 @@
+- name: Konversi suhu menggunakan ansible
+  hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - prompt: Masukkan satuan suhu [celcius|fahrenheit|reamur|kelvin] (celcius)
+      name: input_satuan_suhu
+      private: no
+    - prompt: Masukkan nilai suhu dalam satuan derajat/degree (100)
+      name: input_nilai_suhu
+      private: no
+  tasks:
+    - name: Konversi suhu ke satuan lainnya
+      include_role:
+        name: convert_temperature
+    - name: Keluarkan hasil konversi
+      debug: var=hasil_konversi

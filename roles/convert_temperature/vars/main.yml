@@ -1,0 +1,6 @@
+nilai_suhu: >-
+  {%if input_nilai_suhu | default('') | length > 0%}{{ input_nilai_suhu }}{%
+  else%}100{%endif %}
+satuan_suhu: >-
+  {%if input_satuan_suhu | default('') | length > 0%}{{ input_satuan_suhu }}{%
+  else%}celcius{%endif %}
